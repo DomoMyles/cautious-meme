@@ -4,8 +4,8 @@ const WebpackPwaManifest = require('webpack-pwa-manifest');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 const { GenerateSW } = require('workbox-webpack-plugin');
 const path = require('path');
-const { InjectManifest } = require('workbox-webpack-plugin');
 
+const { InjectManifest } = require('workbox-webpack-plugin');
 // TODO: Add and configure workbox plugins for a service worker and manifest file.
 // TODO: Add CSS loaders and babel to webpack.
 
@@ -30,15 +30,20 @@ module.exports = () => {
       new WorkboxPlugin.GenerateSW(),
 ///You can name whatever you want (file created name)
       new GenerateSW(),
-      new WebpackPsaManifest({
+      ///add igmanifest injects mani into scwrk
+      new InjectManifest({
+        swSrc:"./src-sw.js",
+        swDest:"src-sw.js"
+      }),
+      new WebpackPwaManifest({
         name: 'DomoEditing',
         short_name: 'Domed',
         description: 'Just another text editor',
         background_color: '654321',
         theme_color: 'black',
-////        What are these next 2 for
-        start_url: 'Domo.com',
-        publicPath: '',
+////        What are these next 2 for P
+        start_url: '/',
+        publicPath:'/',
         icons: [
           {
             src: path.resolve('assets/images/logo.png'),

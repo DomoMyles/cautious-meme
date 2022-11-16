@@ -1,5 +1,5 @@
 const { offlineFallback, warmStrategyCache } = require('workbox-recipes');
-const { CacheFirst } = require('workbox-strategies');
+const { CacheFirst, StaleWhileRevalidate } = require('workbox-strategies');
 const { registerRoute } = require('workbox-routing');
 const { CacheableResponsePlugin } = require('workbox-cacheable-response');
 const { ExpirationPlugin } = require('workbox-expiration');
@@ -25,22 +25,23 @@ warmStrategyCache({
 });
 
 registerRoute(({ request }) => request.mode === 'navigate', pageCache);
-p
+
+
+
+
+// TODO: Implement asset caching
+//fill in register rout function
+registerRoute(
+  //array of things to catch
+  ({request}) => ["style", "script", "worker"].includes(request.destination),
+  new StaleWhileRevalidate({
+    cacheName:"asset-cache", 
+    plugins:[new CacheableResponsePlugin({statuses:[0, 200]})] ///does status requests between 0 - 200
+  })
+);
+
 
 //is there anythuing else i need to do to register the serveice worker
 //when page loads it is going to register the serverice worker
 //service worker is registered for caching
 //added function of regester tyo route anything else i need in this js
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/src-sw.js');
-  });
-
-  this.addEventListener('fetch', function (event) {
-    // This fetch function is required for the service worker to be detected and is intentionally empty
-  });
-}
-
-// TODO: Implement asset caching
-
-registerRoute();
