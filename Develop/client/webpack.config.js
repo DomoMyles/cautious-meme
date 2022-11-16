@@ -1,5 +1,5 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+// const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 const { GenerateSW } = require('workbox-webpack-plugin');
@@ -26,7 +26,6 @@ module.exports = () => {
         template: './index.html',
         title: 'TODOs List'
       }),
-      new MiniCssExtractPlugin(),
       new WorkboxPlugin.GenerateSW(),
 ///You can name whatever you want (file created name)
       new GenerateSW(),
@@ -39,14 +38,14 @@ module.exports = () => {
         name: 'DomoEditing',
         short_name: 'Domed',
         description: 'Just another text editor',
-        background_color: '654321',
-        theme_color: 'black',
+        background_color: '#654321',
+        theme_color: '#ffffff',
 ////        What are these next 2 for P
         start_url: '/',
         publicPath:'/',
         icons: [
           {
-            src: path.resolve('assets/images/logo.png'),
+            src: path.resolve('src/images/logo.png'),
             sizes: [96, 128, 256, 384, 512],
             destination: path.join('assets', 'icons'),
           }
@@ -60,7 +59,7 @@ module.exports = () => {
         ////sdd mini css
         {
           test: /\.css$/i,
-          use: [MiniCssExtractPlugin.loader, 'css-loader'],
+          use: ["style-loader", 'css-loader'],
         },
         ////adds the babel loader
         {
